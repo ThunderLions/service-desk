@@ -1,19 +1,15 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 
 // project imports
+import navigation from 'menu-items';
+import { drawerWidth } from 'store/constant';
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import Customization from '../Customization';
-import navigation from 'menu-items';
-import { drawerWidth } from 'store/constant';
-import { SET_MENU } from 'store/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
@@ -68,22 +64,9 @@ const MainLayout = () => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
 
-    // Handle left drawer
-    const leftDrawerOpened = useSelector((state) => state.customization.opened);
-    const dispatch = useDispatch();
-    const handleLeftDrawerToggle = () => {
-        dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
-    };
-
-    useEffect(() => {
-        dispatch({ type: SET_MENU, opened: !matchDownMd });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDownMd]);
-
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            {/* header */}
             <AppBar
                 enableColorOnDark
                 position="fixed"
@@ -91,24 +74,23 @@ const MainLayout = () => {
                 elevation={0}
                 sx={{
                     bgcolor: theme.palette.background.default,
-                    transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
+                    transition: theme.transitions.create('width')
                 }}
             >
                 <Toolbar>
-                    <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+                    <Header handleLeftDrawerToggle={() => console.log('open')} />
                 </Toolbar>
             </AppBar>
 
             {/* drawer */}
-            <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+            <Sidebar drawerOpen={true} drawerToggle={() => console.log('open')} />
 
             {/* main content */}
-            <Main theme={theme} open={leftDrawerOpened}>
+            <Main theme={theme} open={true}>
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
                 <Outlet />
             </Main>
-            <Customization />
         </Box>
     );
 };

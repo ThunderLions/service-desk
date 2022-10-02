@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import {
     Box,
     Button,
@@ -20,10 +18,11 @@ import {
     Typography,
     useMediaQuery
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // third party
-import * as Yup from 'yup';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
@@ -41,7 +40,6 @@ const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
 
     const googleHandler = async () => {
@@ -99,8 +97,7 @@ const FirebaseLogin = ({ ...others }) => {
                                 px: 7,
                                 borderColor: `${theme.palette.grey[100]} !important`,
                                 color: `${theme.palette.grey[900]}!important`,
-                                fontWeight: 500,
-                                borderRadius: `${customization.borderRadius}px`
+                                fontWeight: 500
                             }}
                             disableRipple
                             disabled
